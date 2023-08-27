@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
+Route::get('/', function () {
     return redirect()->route('tasks.index');
 });
 
-Route::get('/tasks', function() {
+Route::get('/tasks', function () {
     return view('index', [
         'tasks' => \App\Models\Task::latest()->where('completed', true)->get()
     ]);
@@ -28,7 +28,7 @@ Route::get('/tasks', function() {
 
 Route::view('/tasks/create', 'create')->name('tasks.create');
 
-Route::get('/tasks/{id}', function($id) {
+Route::get('/tasks/{id}', function ($id) {
     return view('show', ['task' => \App\Models\Task::findOrFail($id)]);
 })->name('tasks.show');
 
@@ -46,5 +46,5 @@ Route::post('/tasks', function (Request $request) {
 
     $task->save();
 
-    return redirect()->route('tasks.show', ['id' => $task->id]);
+    return redirect()->route('tasks.show', ['id' => $task->id])->with('success', 'Task created successfully!');
 })->name('tasks.store');
